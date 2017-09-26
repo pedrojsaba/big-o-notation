@@ -9,11 +9,17 @@
 /**
  * Description of Fibonacci
  *
- * @author Administrador
+ * @author pedrojsaba
  */
 class Fibonacci extends CI_Controller {
 
-    public $fibonacciCache = array(20);
+    public $fibonacciCache = array();
+
+    public function index() {
+        echo anchor(base_url('/fibonacci/lineal1/10'), 'Lineal - Modo 1', 'target="_blank"').'<br>';
+        echo anchor(base_url('/fibonacci/lineal2/10'), 'Lineal - Modo 2', 'target="_blank"').'<br>';
+        echo anchor(base_url('/fibonacci/exponencial/10'), 'Exponencial', 'target="_blank"').'<br>';
+    }
 
     public function exponencial($id) {
         ini_set('max_execution_time', 0);
@@ -22,7 +28,6 @@ class Fibonacci extends CI_Controller {
         $starttime = microtime(true);
         echo 'Resultado: ' . $this->fibonacci1($id) . "<br>";
         $endtime = microtime(true);
-        $time_milli = (int) round(($endtime - $starttime) * 1000);        
         echo "Tiempo: " . number_format(($endtime - $starttime), 20, '.', '') . "<br>";
     }
 
@@ -31,7 +36,6 @@ class Fibonacci extends CI_Controller {
         $starttime = microtime(true);
         echo 'Resultado: ' . $this->fibonacci2($id) . "<br>";
         $endtime = microtime(true);
-        $time_milli = (int) round(($endtime - $starttime) * 1000);        
         echo "Tiempo: " . number_format(($endtime - $starttime), 20, '.', '') . "<br>";
     }
 
@@ -40,7 +44,6 @@ class Fibonacci extends CI_Controller {
         $starttime = microtime(true);
         echo 'Resultado: ' . $this->fibonacci3($id) . "<br>";
         $endtime = microtime(true);
-        $time_milli = (int) round(($endtime - $starttime) * 1000);        
         echo "Tiempo: " . number_format(($endtime - $starttime), 20, '.', '') . "<br>";
     }
 
@@ -75,8 +78,8 @@ class Fibonacci extends CI_Controller {
     }
 
     /// Complexity: O(N)
-    private function fibonacci3($n) {       
-        if (count($this->fibonacciCache) == 1) {            
+    private function fibonacci3($n) {
+        if (count($this->fibonacciCache) == 0) {
             $this->fibonacciCache = $this->init($n);
         }
         if ($n < 0) {
